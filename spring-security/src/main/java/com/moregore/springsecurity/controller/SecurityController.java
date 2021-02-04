@@ -10,4 +10,9 @@ public class SecurityController {
     public String index() {
         return "home";
     }
+
+    @GetMapping(value = "/loginPage")
+    public String loginPage() {
+        return "loginPage";
+    }
 }
