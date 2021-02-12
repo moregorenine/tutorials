@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })  // 로그인 실패 후 핸들러
                 .permitAll();
-        ;
+
+        http
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID", "remember-me")
+                .addLogoutHandler(new LogoutHandler() {
+                    @Override
+                    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+                        request.getSession().invalidate();
+                    }
+                })
+                .logoutSuccessHandler(new LogoutSuccessHandler() {
+                    @Override
+                    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                        response.sendRedirect("/login");
+                    }
+                })
+                .deleteCookies("remember-me");
     }
 
 }
