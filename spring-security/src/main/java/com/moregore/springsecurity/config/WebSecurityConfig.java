@@ -1,12 +1,14 @@
 package com.moregore.springsecurity.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -22,6 +24,9 @@ import java.io.IOException;
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -31,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .formLogin()
-//                .loginPage("/loginPage")   // 사용자 정의 로그인 페이지
+//                .loginPage("/login")   // 사용자 정의 로그인 페이지
                 .defaultSuccessUrl("/") // 로그인 성공 후 이동 페이지
                 .failureUrl("/login")   // 로그인 실패 후 이동 페이지
                 .usernameParameter("username")  // 아이디 파라미터명 설정
@@ -71,6 +76,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .deleteCookies("remember-me");
+
+        http
+                .rememberMe()
+//                .rememberMeParameter("remember-me") //default : remember-me
+                .tokenValiditySeconds(3600) //default : 14일
+//                .alwaysRemember(true) //default : false, rememberMe 기능이 활성화되지 않아도 항상 실행
+                .userDetailsService(userDetailsService);
     }
 
 }
