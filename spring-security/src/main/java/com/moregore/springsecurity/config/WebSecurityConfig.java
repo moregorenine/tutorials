@@ -83,6 +83,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(3600) //default : 14일
 //                .alwaysRemember(true) //default : false, rememberMe 기능이 활성화되지 않아도 항상 실행
                 .userDetailsService(userDetailsService);
+
+        http
+                .sessionManagement()
+                .sessionFixation().changeSessionId() //default:changeSessionId, none, migrateSession, newSession
+//                .invalidSessionUrl("/invalid") //세션이 유효하지 않을 때 이동 할 페이지, 우선순위: invalidSessionUrl > expiredUrl(expireUrl과 동시 존재할 경우 invalidSessionUrl만 실행)
+                .maximumSessions(1) //최대 허용 가능 세션 수, -1:무제한 로그인 세션 허옹
+                .maxSessionsPreventsLogin(false); //동시 로그인 차단함, false: 기존 세션 만료(default), true: 인증 요청 실패 처리
+//                .expiredUrl("/expired"); //세션이 만료된 경우 이동 할 페이지
     }
 
 }
