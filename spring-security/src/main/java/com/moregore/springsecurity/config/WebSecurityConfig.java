@@ -3,6 +3,7 @@ package com.moregore.springsecurity.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,11 +29,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService userDetailsService;
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("user").password("{noop}123").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}123").roles("ADMIN", "USER");
+        auth.inMemoryAuthentication().withUser("sys").password("{noop}123").roles("SYS", "ADMIN", "USER");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+                .authorizeRequests() //권한 검사
+//                .antMatchers("/sho/login", "/shop/users/**").permitAll()
+//                .antMatchers("/sho/mypage").hasRole("USER")
+//                .antMatchers("/sho/admin/pay").access("hasRole('ADMIN')")
+//                .antMatchers("/sho/admin/**").access("hasRole('ADMIN') or hasRole('SYS')")
+//                설정 시 구체적인 경로가 먼저 오고 그것 봐 큰 범위의 경로가 뒤에 오도록 해야 한다.
+                .antMatchers("/user").hasRole("USER")
+                .antMatchers("/admin/pay").hasRole("ADMIN")
+                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SYS')")
+                .anyRequest().authenticated();
 
         http
                 .formLogin()
