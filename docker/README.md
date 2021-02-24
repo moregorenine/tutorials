@@ -89,7 +89,7 @@ docker exec -it <컨테이너 아이디> <redis-cli>
 - it : interactive terminal 명령어를 실행 한 후 계속 명령어를 적을 수 있다.
   - it 옵션 없을 경우 명령어 실행 후 밖으로 다시 나와버린다.
 
-## 5. 실행 중인 컨테이너에서 터미널 생활 즐기기
+## 5. 실행 중인 컨테이너에서 터미널 유지
 ```bash
 docker exec -it <컨테이너 아이디> <sh>
 ```
@@ -128,4 +128,48 @@ FROM alpine
 CMD ["echo", "hello"]
 ```
 ## 3. Dockerfile로 docker 이미지 만들기
+### 3.1. flow
+- Dockerfile -> docker client -> docker server -> docker image
+### 3.2. build
+```bash
+docker build ./
+or
+docker build .
+```
+- build 명령어는 해당 디렉토리 내에서 Dockerfile을 찾아 docker client에게 전달시켜준다.
 ## 4. 내가 만든 이미지 기억하기 쉬운 이름 주기
+### 4.1.
+```bash
+docker build -t <my docker ID>/<저장소/프로젝트명>:<version> ./
+ex)
+docker build -t moregorenine/alpine-hello:latest ./
+```
+# docker를 이용한 간단한 node.js 어플 만들기
+## 1. Node.js 앱 만들기
+- [2.make-node.js-image](2.make-node.js-image)
+```bash
+docker build -t moregorenine/nodejs-express:latest ./
+```
+## 2. port mapping
+```bash
+docker run -p <외부 네트워크 port>:<docker 컨테이너의 port> <image 이름>
+ex)
+docker run -p 8090:8080 moregorenine/nodejs-express
+```
+- 외부 네트워크의 port와 docker 컨테이너의 port를 mapping 해준다.
+## 3. 어플리케이션 소스 변경으로 다시 빌드하는 것에 대한 문제점
+```bash
+docker run -d -p 8090:8080 moregorenine/nodejs-express
+```
+- -d : DETACH 실행 후 바로 빠져 나온다.
+## 4. Docker Volume
+### 4.1. COPY는 로컬의 데이타를 docker 컨테이너로 복사
+### 4.2. volume은 docker 컨테이너가 로컬의 데이타를 참조
+### 4.3. example
+```bash
+docker run -d -p 8090:8080 -v /usr/src/app/node_modules -v %cd%:/usr/src/app moregorenine/nodejs-express
+```
+- -v /usr/src/app/node_modules : 호스트 디렉토리에 node_modules이 없기에 컨테이너에게 맵핑하지 말라고 하는 것
+- -v %cd%:/usr/src/app : cd 경로에 있는 디렉토리 혹은 파일을 /usr/src/app 경로에서 참조
+- 맥 : -v $(pwd):/usr/src/app
+- 윈도우 -v %cd%:/usr/src/app
