@@ -31,3 +31,11 @@ docker-compose up
 ```
 ## 7. 운영환경을 위한 Nginx
 ## 8. 운영환경 도커 이미지를 위한 Dockerfile 작성하기
+```dockerfile
+FROM nginx
+EXPOSE 80
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+```
+```docker
+docker run -p 8080:80 moregorenine/docker-react-app
+```
