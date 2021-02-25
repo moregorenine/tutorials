@@ -22,6 +22,12 @@ or
 docker run -it -p 3000:3000 -v /usr/src/app/node_modules -v $(pwd):/usr/src/app moregorenine/docker-react-app
 ```
 ## 5. 도커 컴포즈로 좀 더 간단하게 앱 실행해보기
+```docker
+docker run -it moregorenine/docker-react-app npm run test
+```
 ## 6. 리액트 앱 테스트 하기
+```docker
+docker-compose up
+```
 ## 7. 운영환경을 위한 Nginx
 ## 8. 운영환경 도커 이미지를 위한 Dockerfile 작성하기
