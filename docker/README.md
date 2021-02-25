@@ -3,7 +3,7 @@
 https://www.docker.com/get-started
 
 ## 2.컨테이너 생성 및 실행
-```bash
+```docker
 docker run <이미지이름> <명령어>
 ```
 - run : 컨테이너 생성 및 실행  
@@ -15,82 +15,82 @@ docker run <이미지이름> <명령어>
 
 # 도커 클라이언트 명령어 알아보기
 ## 1. 컨테이너들 나열하기
-```bash
+```docker
 docker ps
 ```
 - ps : process status
 ### 1.1. 원하는 항목만 보기
-```bash
+```docker
 docker ps --format 'table{{.Names}}\t{{.Image}}'
 ```
 ### 1.1. 모든 컨네이터 나열
-```bash
+```docker
 docker ps -a
 ```
 
 ## 2. 컨테이너의 생명주기
 ### 2.1. 생성(create)
-```bash
+```docker
 docker create <이미지이름>
 ```
 ### 2.2. 시작(start)
-```bash
+```docker
 docker start [-a] <컨테이너 아이디/이름>
 ```
 - -a : attach의미임. 실행 output을 화면에 display
 ### 2.3. 실행(running)
-```bash
+```docker
 docker run <이미지이름>
 ```
 - 실행 = 생성 + 시작
 ### 2.4. 중지(stopped)
-```bash
+```docker
 docker stop <컨테이너 아이디/이름>
 ```
 - Gracefully하게 중지
   - 진행중이던 작업을 완료하고 컨테이너를 중지 시킨다.
 ### 2.5. 중지(kill)
-```bash
+```docker
 docker kill <컨테이너 아이디/이름>
 ```
 - Grace preiod 없이 그냥 중지 시킨다.
 ### 2.6. 삭제(deleted)
-```bash
+```docker
 docker rm <컨테이너 아이디/이름>
 ```
-```bash
+```docker
 docker rm $(docker ps -aq) 
 ```
 - 모든 컨테이너 삭제
-```bash
+```docker
 docker rmi <이미지 아이디>
 ```
 - 이미지 삭제
-```bash
+```docker
 docker system prune
 ```
 - 한번에 컨테이너, 이미지, 네트워크 모두 삭제
   - 도커를 쓰지 않을 때 모두 정리하고 싶을 때 사용해주면 좋음.
 
 ## 3. 실행중인 컨테이너에게 명령어를 전달
-```bash
+```docker
 docker exec fec1bd5a9802 <명령어>
 ```
 
 ## 4. 레디스를 이용한 컨테이너 이해
 ### 4.1. redis server 작동
-```bash
+```docker
 docker run redis
 ```
 ### 4.2. 위에서 실행중인 컨테이너에 명령어 전달
-```bash
+```docker
 docker exec -it <컨테이너 아이디> <redis-cli>
 ```
 - it : interactive terminal 명령어를 실행 한 후 계속 명령어를 적을 수 있다.
   - it 옵션 없을 경우 명령어 실행 후 밖으로 다시 나와버린다.
 
 ## 5. 실행 중인 컨테이너에서 터미널 유지
-```bash
+```docker
 docker exec -it <컨테이너 아이디> <sh>
 ```
 - sh 터미널 빠져나오기 위해서는 Ctrl + D
@@ -131,15 +131,14 @@ CMD ["echo", "hello"]
 ### 3.1. flow
 - Dockerfile -> docker client -> docker server -> docker image
 ### 3.2. build
-```bash
+```docker
 docker build ./
 or
 docker build .
 ```
 - build 명령어는 해당 디렉토리 내에서 Dockerfile을 찾아 docker client에게 전달시켜준다.
 ## 4. 내가 만든 이미지 기억하기 쉬운 이름 주기
-### 4.1.
-```bash
+```docker
 docker build -t <my docker ID>/<저장소/프로젝트명>:<version> ./
 ex)
 docker build -t moregorenine/alpine-hello:latest ./
@@ -147,18 +146,18 @@ docker build -t moregorenine/alpine-hello:latest ./
 # docker를 이용한 간단한 node.js 어플 만들기
 ## 1. Node.js 앱 만들기
 - [2.make-node.js-image](2.make-node.js-image)
-```bash
+```docker
 docker build -t moregorenine/nodejs-express:latest ./
 ```
 ## 2. port mapping
-```bash
+```docker
 docker run -p <외부 네트워크 port>:<docker 컨테이너의 port> <image 이름>
 ex)
 docker run -p 8090:8080 moregorenine/nodejs-express
 ```
 - 외부 네트워크의 port와 docker 컨테이너의 port를 mapping 해준다.
 ## 3. 어플리케이션 소스 변경으로 다시 빌드하는 것에 대한 문제점
-```bash
+```docker
 docker run -d -p 8090:8080 moregorenine/nodejs-express
 ```
 - -d : DETACH 실행 후 바로 빠져 나온다.
@@ -166,10 +165,29 @@ docker run -d -p 8090:8080 moregorenine/nodejs-express
 ### 4.1. COPY는 로컬의 데이타를 docker 컨테이너로 복사
 ### 4.2. volume은 docker 컨테이너가 로컬의 데이타를 참조
 ### 4.3. example
-```bash
+```docker
 docker run -d -p 8090:8080 -v /usr/src/app/node_modules -v %cd%:/usr/src/app moregorenine/nodejs-express
 ```
 - -v /usr/src/app/node_modules : 호스트 디렉토리에 node_modules이 없기에 컨테이너에게 맵핑하지 말라고 하는 것
 - -v %cd%:/usr/src/app : cd 경로에 있는 디렉토리 혹은 파일을 /usr/src/app 경로에서 참조
 - 맥 : -v $(pwd):/usr/src/app
 - 윈도우 -v %cd%:/usr/src/app
+# Docker Compose
+## 1. 어플리케이션 소스 작성하기
+- [3.docker-compose-app](3.docker-compose-app)
+## 2. redis server 실행하기
+### 2.1. server.js의 redis client가 통신하기 위한 redis server가 우선 실행되어야 한다.
+```docker
+docker run redis
+```
+## 3. Docker Compose 파일 작성하기
+### 3.1. Docker Compose 실행
+```docker
+docker-compose up [-d] [--build]
+```
+- --build : image 있던 없던 build하고 컨테이너 시작
+  - 이 옵션이 없을 경우 image 존재하면 build 없이 컨테이너 시작
+## 4. Docker Compose로 컨테이너를 멈추기
+```docker
+docker-compose down
+```
