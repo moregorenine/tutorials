@@ -39,3 +39,11 @@ COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 ```docker
 docker run -p 8080:80 moregorenine/docker-react-app
 ```
+
+
+# 간단한 어플을 실제로 배포해보기(테스트 & 배포 부분)
+# 1. Travis CI 이용 순서
+[https://travis-ci.org/](https://travis-ci.org/)
+# 2. .travis.yml 파일 작성하기 (테스트까지)
+## 2.1. [https://travis-ci.org/](https://travis-ci.org/)
+## 2.2. [https://travis-ci.com/](https://travis-ci.com/)
