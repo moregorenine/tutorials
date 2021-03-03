@@ -9,7 +9,7 @@
 ## vue
 ### [learn-vue-js](vue/learn-vue-js)
 - beginner course
-### [vuejs.org](vue/vuejs.org)
+### [vuejs-org](vue/vuejs-org)
 - guide : https://kr.vuejs.org/v2/guide/
 
 ## docker
