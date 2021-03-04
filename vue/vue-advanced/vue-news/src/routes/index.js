@@ -14,5 +14,6 @@ const routes = [
 ];
 
 export const router = new VueRouter({
+  mode: 'history',
   routes, // `routes: routes`의 줄임
 });
