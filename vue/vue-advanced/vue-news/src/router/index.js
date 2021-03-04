@@ -7,6 +7,7 @@ import JobsView from '../views/JobsView.vue';
 Vue.use(VueRouter);
 
 const routes = [
+  { path: '/', redirect: '/news' },
   { path: '/news', component: NewsView },
   { path: '/ask', component: AskView },
   { path: '/jobs', component: JobsView },
