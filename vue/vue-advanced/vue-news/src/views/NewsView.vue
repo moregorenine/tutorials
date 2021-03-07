@@ -1,22 +1,24 @@
 <template>
   <div>
-    <span v-for="item in news">{{ item.title }}</span>
+    <span v-for="item in this.$store.state.news">{{ item.title }}</span>
   </div>
 </template>
 
 <script>
-import { fetchNewsList } from '../api/index.js';
-
 export default {
-  data() {
-    return {
-      news: [],
-    };
-  },
+  // // store 적용 전
+  // data() {
+  //   return {
+  //     news: [],
+  //   };
+  // },
   created() {
-    fetchNewsList()
-      .then((response) => (this.news = response.data))
-      .catch((error) => console.log(error));
+    // // store 적용 전
+    // fetchNewsList()
+    //   .then((response) => (this.news = response.data))
+    //   .catch((error) => console.log(error));// store 적용 전
+    // store 적용 후
+    this.$store.dispatch('FETCH_NEWS_LIST');
   },
 };
 </script>
