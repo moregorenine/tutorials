@@ -1,12 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { fetchNewsList } from '../api/index.js';
+import { fetchNewsList, fetchAskList, fetchJobsList } from '../api/index.js';
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
     news: [],
+    ask: [],
+    jobs: [],
+  },
+  mutations: {
+    SET_NEWS(state, data) {
+      state.news = data;
+    },
+    SET_ASK(state, data) {
+      state.news = data;
+    },
+    SET_JOBS(state, data) {
+      state.jobs = data;
+    },
   },
   actions: {
     FETCH_NEWS_LIST(context) {
@@ -16,10 +29,19 @@ export const store = new Vuex.Store({
         })
         .catch((error) => console.log(error));
     },
-  },
-  mutations: {
-    SET_NEWS(state, news) {
-      state.news = news;
+    FETCH_ASK_LIST({ commit }) {
+      fetchAskList()
+        .then(({ data }) => {
+          commit('SET_ASK', data);
+        })
+        .catch((error) => console.log(error));
+    },
+    FETCH_JOBS_LIST({ commit }) {
+      fetchAskList()
+        .then(({ data }) => {
+          commit('SET_JOBS', data);
+        })
+        .catch((error) => console.log(error));
     },
   },
   // getters,
