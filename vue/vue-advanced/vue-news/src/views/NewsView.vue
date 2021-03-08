@@ -12,7 +12,7 @@
             </a>
           </p>
           <small class="link-text">
-            by
+            {{ item.time_ago }} by
             <router-link v-bind:to="`/user/${item.user}`" class="link-text">
               {{ item.user }}
             </router-link>
@@ -66,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .news-list {
   margin: 0;
   padding: 0;
