@@ -10,9 +10,9 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', redirect: '/news' },
-  { path: '/news', component: NewsView },
-  { path: '/ask', component: AskView },
-  { path: '/jobs', component: JobsView },
+  { path: '/news', name: 'news', component: NewsView },
+  { path: '/ask', name: 'ask', component: AskView },
+  { path: '/jobs', name: 'jobs', component: JobsView },
   { path: '/user/:id', component: UserView },
   { path: '/item/:id', component: ItemView },
 ];

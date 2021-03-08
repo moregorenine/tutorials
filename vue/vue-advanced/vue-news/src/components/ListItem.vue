@@ -1,21 +1,33 @@
 <template>
   <div>
     <ul class="news-list">
-      <li v-for="item in getNews" v-bind:key="item.id" class="post">
+      <li v-for="item in listItems" v-bind:key="item.id" class="post">
         <div class="points">
-          {{ item.points }}
+          {{ item.points || 0 }}
         </div>
         <div>
           <p class="news-title">
-            <a v-bind:href="item.url">
-              {{ item.title }}
-            </a>
+            <template v-if="item.domain">
+              <a v-bind:href="item.url">
+                {{ item.title }}
+              </a>
+            </template>
+            <template v-else>
+              <router-link v-bind:to="`/item/${item.id}`">
+                {{ item.title }}
+              </router-link>
+            </template>
           </p>
           <small class="link-text">
             {{ item.time_ago }} by
-            <router-link v-bind:to="`/user/${item.user}`" class="link-text">
-              {{ item.user }}
-            </router-link>
+            <template v-if="item.user">
+              <router-link v-bind:to="`/user/${item.user}`" class="link-text">
+                {{ item.user }}
+              </router-link>
+            </template>
+            <template v-else>
+              <a v-bind:href="item.url">{{ item.domain }}</a>
+            </template>
           </small>
         </div>
       </li>
@@ -24,11 +36,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['getNews']),
+    listItems() {
+      const routeName = this.$route.name;
+      if ('news' === routeName) {
+        return this.$store.state.news;
+      } else if ('ask' === routeName) {
+        return this.$store.state.ask;
+      } else if ('jobs' === routeName) {
+        return this.$store.state.jobs;
+      }
+      return null;
+    },
+
+    // // ver.4
+    // ...mapGetters(['getNews']),
     // // ver.3
     // ...mapGetters({
     //   news: 'getNews',
@@ -53,8 +78,25 @@ export default {
     // fetchNewsList()
     //   .then((response) => (this.news = response.data))
     //   .catch((error) => console.log(error));// store 적용 전
-    // store 적용 후
-    this.$store.dispatch('FETCH_NEWS_LIST');
+
+    // // store 적용 후
+    // this.$store.dispatch('FETCH_NEWS_LIST');
+
+    // component 적용 후
+    const routeName = this.$route.name;
+    switch (routeName) {
+      case 'news':
+        this.$store.dispatch('FETCH_NEWS_LIST');
+        break;
+      case 'ask':
+        this.$store.dispatch('FETCH_ASK_LIST');
+        break;
+      case 'jobs':
+        this.$store.dispatch('FETCH_JOBS_LIST');
+        break;
+      default:
+        break;
+    }
   },
 };
 </script>
