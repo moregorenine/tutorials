@@ -1,7 +1,14 @@
 <template>
   <div>
     <section>
-      <div class="user-container">
+      <user-profile v-bind:info="getItem">
+        <!-- <div slot="username">{{ getItem.user }}</div> -->
+        <router-link slot="username" v-bind:to="`/user/${getItem.user}`">
+          {{ getItem.user }}
+        </router-link>
+        <div slot="time">{{ 'Posted ' + getItem.time_ago }}</div>
+      </user-profile>
+      <!-- <div class="user-container">
         <div>
           <i class="fas fa-user"></i>
         </div>
@@ -13,10 +20,12 @@
             {{ getItem.time_ago }}
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
     <section>
       <h2>{{ getItem.title }}</h2>
+    </section>
+    <section>
       <div v-html="getItem.content"></div>
     </section>
   </div>
@@ -24,8 +33,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import UserProfile from '../components/UserProfile.vue';
 
 export default {
+  components: {
+    UserProfile,
+  },
   computed: {
     ...mapGetters(['getItem']),
   },
