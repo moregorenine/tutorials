@@ -5,6 +5,7 @@ import AskView from '../views/AskView.vue';
 import JobsView from '../views/JobsView.vue';
 import UserView from '../views/UserView.vue';
 import ItemView from '../views/ItemView.vue';
+import WaferMapView from '../views/WaferMapView.vue';
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,7 @@ const routes = [
   { path: '/jobs', name: 'jobs', component: JobsView },
   { path: '/user/:id', component: UserView },
   { path: '/item/:id', component: ItemView },
+  { path: '/wafer-map', component: WaferMapView },
 ];
 
 export const router = new VueRouter({
