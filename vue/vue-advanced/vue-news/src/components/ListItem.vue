@@ -41,15 +41,16 @@
 export default {
   computed: {
     listItems() {
-      const routeName = this.$route.name;
-      if ('news' === routeName) {
-        return this.$store.state.news;
-      } else if ('ask' === routeName) {
-        return this.$store.state.ask;
-      } else if ('jobs' === routeName) {
-        return this.$store.state.jobs;
-      }
-      return null;
+      return this.$store.state.list;
+      // const routeName = this.$route.name;
+      // if ('news' === routeName) {
+      //   return this.$store.state.news;
+      // } else if ('ask' === routeName) {
+      //   return this.$store.state.ask;
+      // } else if ('jobs' === routeName) {
+      //   return this.$store.state.jobs;
+      // }
+      // return null;
     },
 
     // // ver.4
@@ -82,21 +83,22 @@ export default {
     // // store 적용 후
     // this.$store.dispatch('FETCH_NEWS_LIST');
 
-    // component 적용 후
-    const routeName = this.$route.name;
-    switch (routeName) {
-      case 'news':
-        this.$store.dispatch('FETCH_NEWS_LIST');
-        break;
-      case 'ask':
-        this.$store.dispatch('FETCH_ASK_LIST');
-        break;
-      case 'jobs':
-        this.$store.dispatch('FETCH_JOBS_LIST');
-        break;
-      default:
-        break;
-    }
+    // 1.component 적용 후
+    // 2.CreateListView.js로 하이 오더 컴포넌트화
+    // const routeName = this.$route.name;
+    // switch (routeName) {
+    //   case 'news':
+    //     this.$store.dispatch('FETCH_NEWS_LIST');
+    //     break;
+    //   case 'ask':
+    //     this.$store.dispatch('FETCH_ASK_LIST');
+    //     break;
+    //   case 'jobs':
+    //     this.$store.dispatch('FETCH_JOBS_LIST');
+    //     break;
+    //   default:
+    //     break;
+    // }
   },
 };
 </script>
