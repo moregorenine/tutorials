@@ -4,6 +4,7 @@ import {
   fetchNewsList,
   fetchAskList,
   fetchJobsList,
+  fetchList,
   fetchUser,
   fetchItem,
 } from '../api/index.js';
@@ -17,6 +18,7 @@ export const store = new Vuex.Store({
     jobs: [],
     user: {},
     item: {},
+    list: {},
   },
   getters: {
     getNews(state) {
@@ -34,6 +36,9 @@ export const store = new Vuex.Store({
     getItem(state) {
       return state.item;
     },
+    getList(state) {
+      return state.list;
+    },
   },
   mutations: {
     SET_NEWS(state, data) {
@@ -50,6 +55,9 @@ export const store = new Vuex.Store({
     },
     SET_ITEM(state, data) {
       state.item = data;
+    },
+    SET_LIST(state, data) {
+      state.list = data;
     },
   },
   actions: {
@@ -85,6 +93,13 @@ export const store = new Vuex.Store({
       fetchItem(itemId)
         .then(({ data }) => {
           commit('SET_ITEM', data);
+        })
+        .catch((error) => console.log(error));
+    },
+    FETCH_LIST({ commit }, pageName) {
+      fetchList(pageName)
+        .then(({ data }) => {
+          commit('SET_LIST', data);
         })
         .catch((error) => console.log(error));
     },
