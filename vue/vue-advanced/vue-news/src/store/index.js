@@ -62,44 +62,45 @@ export const store = new Vuex.Store({
   },
   actions: {
     FETCH_NEWS_LIST(context) {
-      fetchNewsList()
+      return fetchNewsList()
         .then((response) => {
           context.commit('SET_NEWS', response.data);
         })
         .catch((error) => console.log(error));
     },
     FETCH_ASK_LIST({ commit }) {
-      fetchAskList()
+      return fetchAskList()
         .then(({ data }) => {
           commit('SET_ASK', data);
         })
         .catch((error) => console.log(error));
     },
     FETCH_JOBS_LIST({ commit }) {
-      fetchJobsList()
+      return fetchJobsList()
         .then(({ data }) => {
           commit('SET_JOBS', data);
         })
         .catch((error) => console.log(error));
     },
     FETCH_USER({ commit }, userName) {
-      fetchUser(userName)
+      return fetchUser(userName)
         .then(({ data }) => {
           commit('SET_USER', data);
         })
         .catch((error) => console.log(error));
     },
     FETCH_ITEM({ commit }, itemId) {
-      fetchItem(itemId)
+      return fetchItem(itemId)
         .then(({ data }) => {
           commit('SET_ITEM', data);
         })
         .catch((error) => console.log(error));
     },
     FETCH_LIST({ commit }, pageName) {
-      fetchList(pageName)
-        .then(({ data }) => {
-          commit('SET_LIST', data);
+      return fetchList(pageName)
+        .then((response) => {
+          commit('SET_LIST', response.data);
+          return response;
         })
         .catch((error) => console.log(error));
     },
