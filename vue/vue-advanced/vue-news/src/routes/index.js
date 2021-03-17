@@ -28,14 +28,29 @@ const routes = [
         .dispatch('FETCH_LIST', to.name)
         .then(() => {
           const end = new Date();
-          bus.$emit('end:spinner');
           console.log(`${end - start} ms`);
           next();
         })
         .catch((error) => console.log(error));
     },
   },
-  { path: '/ask', name: 'ask', component: AskView },
+  {
+    path: '/ask',
+    name: 'ask',
+    component: AskView,
+    beforeEnter: (to, from, next) => {
+      const start = new Date();
+      bus.$emit('start:spinner');
+      store
+        .dispatch('FETCH_LIST', to.name)
+        .then(() => {
+          const end = new Date();
+          console.log(`${end - start} ms`);
+          next();
+        })
+        .catch((error) => console.log(error));
+    },
+  },
   { path: '/jobs', name: 'jobs', component: JobsView },
   { path: '/user/:id', component: UserView },
   { path: '/item/:id', component: ItemView },
