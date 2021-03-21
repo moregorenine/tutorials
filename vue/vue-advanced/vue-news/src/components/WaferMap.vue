@@ -1,14 +1,11 @@
 <template>
   <div>
-      <!-- <svg width="500" height="500"></svg> -->
+    <svg ref="waferMap" width="500" height="500"></svg>
   </div>
 </template>
 
 <script>
-import { select, csv, scaleLinear, min, max, axisLeft, axisBottom } from 'd3';
-
 export default {
-  props: ['tagetid'],
   mounted() {
     const waferMap = [
       { x: 189, y: 185, value: 0 },
@@ -491,7 +488,7 @@ export default {
       { x: 212, y: 190, value: 0 },
       { x: 212, y: 191, value: 3 },
     ];
-    const svg = select(`#${this.tagetid}`);
+    const svg = this.$_WaferMap.select(this.$refs.waferMap);
     const width = +svg.attr('width');
     const height = +svg.attr('height');
 
@@ -499,13 +496,13 @@ export default {
       console.log('1');
       console.log(waferMap);
       const xValue = (d) => d.x;
-      const xValueMin = min(waferMap, xValue);
+      const xValueMin = this.$_WaferMap.min(waferMap, xValue);
       console.log(xValueMin);
-      const xValueMax = max(waferMap, xValue);
+      const xValueMax = this.$_WaferMap.max(waferMap, xValue);
       console.log(xValueMax);
       const yValue = (d) => d.y;
-      const yValueMin = min(waferMap, yValue);
-      const yValueMax = max(waferMap, yValue);
+      const yValueMin = this.$_WaferMap.min(waferMap, yValue);
+      const yValueMax = this.$_WaferMap.max(waferMap, yValue);
       const margin = {
         top: 20,
         right: 20,
@@ -514,20 +511,20 @@ export default {
       };
       const innerWidth = width - margin.left - margin.right;
       const innerHeight = height - margin.top - margin.bottom;
-      const xScale = scaleLinear()
-        .domain([min(waferMap, xValue) - 1, max(waferMap, xValue) + 1])
+      const xScale = this.$_WaferMap.scaleLinear()
+        .domain([this.$_WaferMap.min(waferMap, xValue) - 1, this.$_WaferMap.max(waferMap, xValue) + 1])
         .range([0, innerWidth]);
-      const yScale = scaleLinear()
-        .domain([max(waferMap, yValue) + 1, min(waferMap, yValue) - 1])
+      const yScale = this.$_WaferMap.scaleLinear()
+        .domain([this.$_WaferMap.max(waferMap, yValue) + 1, this.$_WaferMap.min(waferMap, yValue) - 1])
         .range([0, innerHeight]);
       console.log(xScale.domain());
       console.log(yScale.domain());
       const g = svg
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
-      g.append('g').call(axisLeft(yScale));
+      g.append('g').call(this.$_WaferMap.axisLeft(yScale));
       g.append('g')
-        .call(axisBottom(xScale))
+        .call(this.$_WaferMap.axisBottom(xScale))
         .attr('transform', `translate(0,${innerHeight})`);
       g.selectAll('rect')
         .data(waferMap)
