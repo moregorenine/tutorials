@@ -6,7 +6,9 @@ const paths = require('./paths')
 
 module.exports = {
   // Where webpack looks to start building the bundle
-  entry: [paths.src + '/index.js'],
+  entry: {
+    index: paths.src + '/index.js',
+  },
 
   // Where webpack outputs the assets and bundles
   output: {
@@ -39,8 +41,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'webpack Boilerplate',
       favicon: paths.src + '/images/favicon.png',
-      template: paths.src + '/template.html', // template file
+      template: paths.templates + '/index.html', // template file
       filename: 'index.html', // output file
+      chunks: ["index"],
     }),
 
     // ESLint configuration
