@@ -42,5 +42,5 @@
 >- Documents are organized into collections.
 
 >MongoDB's database uses tables of related data.
->- This is incorrect.
+>- :heavy_check_mark: This is incorrect.
 >- Rows and columns are not part of the data organization in MongoDB.
