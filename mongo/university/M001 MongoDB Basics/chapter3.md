@@ -1,4 +1,4 @@
-# Chapter 2: Creating and Manipulating Documents
+# Chapter 3: Creating and Manipulating Documents
 ## Lecture: Inserting New Documents - ObjectId
 M320 - Data Modeling, Later Chapters
 - Summary
@@ -129,3 +129,17 @@ db.pets.insert([{ "_id": 1, "pet": "cat" },
 ```
 >- :heavy_check_mark: This is correct.
 >- While there is a duplicate key error between the "fish" and "snake" documents, it occurs at the very end of the insert operation, because this insert is ordered by default. As a result the first 3 documents will get inserted and the last one will create a duplicate key error.
+
+## Lecture: Updating Documents - Data Explorer
+
+## Quiz: Updating Documents
+
+## Lecture: Updating Documents - mongo shell
+
+## Quiz: Updating Documents in the shell
+
+## Lecture: Deleting Documents and Collections
+
+## Quiz 1: Deleting Documents
+
+## Quiz 2: Deleting Documents
