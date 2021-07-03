@@ -1,0 +1,1 @@
+mongo "mongodb+srv://sandbox.mfxir.mongodb.net/myFirstDatabase" --username moregorenine
