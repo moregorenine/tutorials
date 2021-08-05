@@ -57,3 +57,11 @@
 - AuthenticationProvider 목록 중에서 인증 처리 요건에 맞는 AuthenticationProvider 를 찾아 인증처리를 위임한다
 - 부모 ProviderManager 를 설정하여  AuthenticationProvider 를 계속 탐색 할 수 있다
 
+### 9. 인가 개념 및 필터 이해 : Authorization, FilterSecurityInterceptor
+#### 9.1 spring security가 지원하는 권한 계증
+- 웹 계층
+  - url 요청에 따른 메뉴 혹은 화면단위의 레벨 보안
+- 서비스 계층
+  - 화면 단위가 아닌 메소드 같은 기능 단위의 레벨 보안
+- 도메인 계층(Access Control List, 접근제어목록)
+  - 객체 단위의 레벨 보안
